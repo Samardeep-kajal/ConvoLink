@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 const ejsMate = require('ejs-mate')
 const app = express();
 
-// connectDB();
+connectDB();
 app.engine('ejs', ejsMate)
 app.set('views engine', 'ejs')
 app.use(express.json());
