@@ -2,11 +2,16 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel')
 const { body, validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/errorMiddleware');
 
 const JWT_SECRET = 'kskalnadssalsbjk';
+
+router.get('/one',async(req, res)=>{
+    console.log("hi")
+    res.send("request send")
+})
 
 router.post('/createuser', [
     body('name', 'Enter a valid Name').isLength({ min: 3 }),
