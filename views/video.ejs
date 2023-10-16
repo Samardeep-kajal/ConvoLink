@@ -1,0 +1,67 @@
+<%layout('layout/boilerplate.ejs') %>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.4.5/dist/peerjs.min.js"></script>
+    <script type="text/javascript">
+        const ROOM_ID = "<%=roomId%>"
+    </script>
+
+    <script src="https://kit.fontawesome.com/1a8059b87f.js" crossorigin="anonymous"></script>
+
+
+    <div class="video-wrap">
+        <video id="video" style="display: none;" playsinline autoplay></video>
+    </div>
+    <img src="" id="imgUser" style="display: none;" alt="">
+
+    <canvas id="canvas" style="display: none;"></canvas>
+    <canvas id="canvas2" style="display: none;"></canvas>
+    <div class="main ">
+        <div class="main_left">
+            <div class="main_videos">
+                <div id="video-grid">
+
+                </div>
+            </div>
+            <div class="main_controls">
+                <div class="main_controls_block">
+                    <div onclick="muteUnmute()" class="main_controls_button main_mute_button">
+                        <i class="fa-solid fa-microphone"></i>
+                        <span>Mute</span>
+                    </div>
+                    <div onclick="playStop()" class="main_controls_button main_video_button">
+                        <i class="fa-solid fa-video-slash"></i>
+                        <span>Stop Video</span>
+                    </div>
+                </div>
+                <div class="main_controls_block align-items-center">
+                    <p><b>Room ID :</b>
+                        <%=roomId%>
+                    </p>
+                </div>
+                <div class="main_controls_block">
+                    <div class="main_controls_button" id="leaveButton">
+                        <span class="leave_meeting"><a href="/" style="text-decoration: none; color:red;">Leave Meeting</a> </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="main_right">
+            <div class="main_header">
+                <h5>Chat</h5>
+            </div>
+
+            <div class="main_chat_window">
+                <ul class="messages">
+
+                </ul>
+            </div>
+
+            <div class="main_message_container">
+                <input type="text" id="chat_message" placeholder="Type message here...">
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/videoScript.js" charset="utf-8"></script>
