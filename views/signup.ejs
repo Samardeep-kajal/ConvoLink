@@ -16,7 +16,7 @@
   <body>
     <div class="flex h-screen bg-slate-900 items-center justify-center">
       <div class="w-96 p-6 shadow-lg bg-white rounded-md">
-        <form action="">
+        <form form action="/api/upload"method="POST" enctype="multipart/form-data">
           <h1 class="text-center font-semibold text-3xl">
             <i class="fa-solid fa-user"></i>&nbsp;&nbsp;Sign up
           </h1>
@@ -54,8 +54,8 @@
           </div>
           <label for="img">Profile Picture</label>
           <div class="flex mt-1 items-center">
-              <img src="" id="image-preview" alt="Your picked image"class="border-2 border-slate-400 rounded-full h-16 w-16 object-cover" >
-              <input type="file" name="img" id="img" class="ml-3.5">
+              <img src="" id="image-preview" alt="Your picked image"class=" rounded-full h-16 w-16 object-cover hidden	" >
+              <input type="file" name="img" id="img" class="ml-3.5" required>
           </div>
           <button
             class="font-semibold rounded-md w-full mt-5 px-2 py-1 bg-slate-950 text-white hover:bg-slate-800"
@@ -69,5 +69,32 @@
         </form>
       </div>
     </div>
+    <script>
+      const filePickerElement = document.getElementById("img");
+      const imagePreviewElement = document.getElementById("image-preview");
+      
+      function showPreview() {
+        const files = filePickerElement.files;
+        //No file selected
+        if (!files || files.length == 0) {
+          imagePreviewElement.style.display = "none";
+          // imagePreviewElement.classList.add('hidden');
+          return;
+        }
+        const pickedFile = files[0];
+        /*The createObejctURL function of URL class creates a URL of the picked file on the client side or local computer
+      as we have still not submitted the selected file to the server.*/
+        imagePreviewElement.src = URL.createObjectURL(pickedFile);
+        console.log(imagePreviewElement.src);
+        imagePreviewElement.style.display = "block";
+      }
+      
+      //The change event occurs when the value inside the input element changes.
+      /*The change event triggers when we select a file or unselect a selected file by clicking
+      (When a file is already selected and when we click on choose file button and click cancel then the selected file is removed)*/
+      
+      filePickerElement.addEventListener("change", showPreview);
+    
+      </script>
   </body>
 </html>
