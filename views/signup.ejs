@@ -11,7 +11,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>Login</title>
+    <title>Signup</title>
   </head>
   <body>
     <div class="flex h-screen bg-slate-900 items-center justify-center">
@@ -30,6 +30,7 @@
               class="w-full text-base px-2 py-1 border-2 border-slate-400 rounded-sm"
               placeholder="Enter Username..."
             />
+            
             <label for="password" class="block mb-2 text-base mt-2"
               >Password</label
             >
@@ -47,9 +48,14 @@
               type="password"
               required
               id="password2"
-              class="w-full text-base px-2 py-1 border-2 border-slate-400"
+              class="w-full text-base px-2 py-1 border-2 border-slate-400 mb-2"
               placeholder="Confirm Password..."
             />
+          </div>
+          <label for="img">Profile Picture</label>
+          <div class="flex mt-1 items-center">
+              <img src="" id="image-preview" alt="Your picked image"class="border-2 border-slate-400 rounded-full h-16 w-16 object-cover" >
+              <input type="file" name="img" id="img" class="ml-3.5">
           </div>
           <button
             class="font-semibold rounded-md w-full mt-5 px-2 py-1 bg-slate-950 text-white hover:bg-slate-800"
