@@ -14,6 +14,9 @@ const { v4: uuidV4 } = require("uuid");
 const upload = require("./utils/multer");
 const { cloudinary } = require("./utils/cloudinary");
 const path = require("path");
+const upload = require("./utils/multer");
+const { cloudinary } = require("./utils/cloudinary");
+const path = require("path");
 
 connectDB();
 app.use(session({
@@ -42,6 +45,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: false }));
+// app.use(express.static(path.join(__dirname, 'public')))
 // app.use(express.static(path.join(__dirname, 'public')))
 app.use(cors());
 
