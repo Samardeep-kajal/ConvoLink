@@ -11,12 +11,13 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Signup</title>
   </head>
   <body>
     <div class="flex h-screen bg-slate-900 items-center justify-center">
       <div class="w-96 p-6 shadow-lg bg-white rounded-md">
-        <form form action="/api/upload"method="POST" enctype="multipart/form-data">
+        <form id="signupForm">
           <h1 class="text-center font-semibold text-3xl">
             <i class="fa-solid fa-user"></i>&nbsp;&nbsp;Sign up
           </h1>
@@ -24,20 +25,28 @@
           <div class="mt-3">
             <label for="username" class="block mb-2 text-base">Username</label>
             <input
-              type="email"
+              type="name"
               required
               id="username"
               class="w-full text-base px-2 py-1 border-2 border-slate-400 rounded-sm"
               placeholder="Enter Username..."
             />
-            
+            <label for="email" class="block mb-2 text-base mt-2">Email</label>
+            <input
+              type="email"
+              required
+              id="email"
+              class="w-full text-base px-2 py-1 border-2 border-slate-400"
+              placeholder="Enter Email..."
+            />
+
             <label for="password" class="block mb-2 text-base mt-2"
               >Password</label
             >
             <input
               type="password"
               required
-              id="passsword"
+              id="password"
               class="w-full text-base px-2 py-1 border-2 border-slate-400"
               placeholder="Enter Password..."
             />
@@ -54,8 +63,14 @@
           </div>
           <label for="img">Profile Picture</label>
           <div class="flex mt-1 items-center">
-              <img src="" id="image-preview" alt="Your picked image"class=" rounded-full h-16 w-16 object-cover hidden	" >
-              <input type="file" name="img" id="img" class="ml-3.5" required>
+            <img
+              src=""
+              id="image-preview"
+              alt="Your picked image"
+              class="rounded-full h-16 w-16 object-cover hidden"
+            />
+            <!-- required -->
+            <input type="file" name="img" id="img" class="ml-3.5" required />
           </div>
           <button
             class="font-semibold rounded-md w-full mt-5 px-2 py-1 bg-slate-950 text-white hover:bg-slate-800"
@@ -69,16 +84,17 @@
         </form>
       </div>
     </div>
+
     <script>
       const filePickerElement = document.getElementById("img");
       const imagePreviewElement = document.getElementById("image-preview");
-      
+
       function showPreview() {
         const files = filePickerElement.files;
         //No file selected
         if (!files || files.length == 0) {
           imagePreviewElement.style.display = "none";
-          // imagePreviewElement.classList.add('hidden');
+          imagePreviewElement.classList.add("hidden");
           return;
         }
         const pickedFile = files[0];
@@ -88,13 +104,54 @@
         console.log(imagePreviewElement.src);
         imagePreviewElement.style.display = "block";
       }
-      
+
       //The change event occurs when the value inside the input element changes.
       /*The change event triggers when we select a file or unselect a selected file by clicking
       (When a file is already selected and when we click on choose file button and click cancel then the selected file is removed)*/
-      
+
       filePickerElement.addEventListener("change", showPreview);
-    
-      </script>
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("signupForm")
+          .addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const password2 = document.getElementById("password2").value;
+
+            if (password !== password2) {
+              alert("Passwords do not match. Please re-enter.");
+              return;
+            }
+
+            try {
+              const response = await axios.post("/api/auth/createuser", {
+                name: username,
+                email: email,
+                password: password,
+              });
+
+              const responseData = response.data;
+              console.log(responseData);
+              if (responseData.success) {
+                alert("User registered successfully");
+                window.location.href = "/sign-in";
+              } else {
+                console.error(responseData.error);
+                alert(
+                  "User registration failed. Please check the entered information."
+                );
+              }
+            } catch (error) {
+              console.error("User registration failed:", error);
+              alert("User registration failed. Please try again later.");
+            }
+          });
+      });
+    </script>
   </body>
 </html>
