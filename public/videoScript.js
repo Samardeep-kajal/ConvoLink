@@ -88,15 +88,13 @@ const muteUnmute = () => {
 
 const setMuteButton = () => {
   const html = `
-  <i class="fa-solid fa-microphone"></i>
-  <span>Mute</span>`;
+  <i class="fa-solid fa-microphone"></i>`;
   document.querySelector(".main_mute_button").innerHTML = html;
 };
 
 const setUnmutedButton = () => {
   const html = `
-  <i class="unmute fa-solid fa-microphone-slash"></i>
-  <span>Unmute</span>`;
+  <i class="unmute fa-solid fa-microphone-slash"></i>`;
   document.querySelector(".main_mute_button").innerHTML = html;
 };
 
@@ -113,15 +111,13 @@ const playStop = () => {
 
 const setStopVideo = () => {
   const html = `
-  <i class="fa-solid fa-video"></i>
-  <sapn>Stop Video</span>`;
+  <i class="fa-solid fa-video"></i>`;
   document.querySelector(".main_video_button").innerHTML = html;
 };
 
 const setPlayVideo = () => {
   const html = `
-  <i class="stop fa-solid fa-video-slash"></i>
-  <span>Play Video</span>`;
+  <i class="stop fa-solid fa-video-slash"></i>`;
 
   document.querySelector(".main_video_button").innerHTML = html;
 };

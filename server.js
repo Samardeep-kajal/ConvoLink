@@ -82,8 +82,8 @@ app.post("/api/upload", upload.single("img"), async (req, res) => {
       image: result.public_id,
     };
     // console.log(result);
-    // res.status(200).json({post_details});
-    res.render("success");
+    // res.status(200).json({ post_details });
+    // res.render("success");
   } catch (error) {
     console.log(error);
   }
