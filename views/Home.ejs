@@ -1,11 +1,17 @@
 <% layout('layout/boilerplate.ejs') %>
-
-    <!-- Hero Section -->
-    <section class="bg-blue-500 py-16 text-white text-center">
-        <div class="container mx-auto">
-            <h1 class="text-6xl font-bold">ConvoLink</h1>
-            <p class="text-lg mt-4">Join meetings seamlessly with ConvoLink.</p>
-            <a href="/videoRoom" class="bg-sky-700 text-white px-6 py-3 rounded-full mt-6 inline-block hover:bg-sky-600">Join a Meeting</a
+    <% if (currentUser) { %>
+        <p>Welcome
+            <%= currentUser.name %>!</p>
+        <!-- Display other user information as needed -->
+        <% } else { %>
+            <p>User not logged in.</p>
+            <% } %>
+                <!-- Hero Section -->
+                <section class="bg-blue-500 py-16 text-white text-center">
+                    <div class="container mx-auto">
+                        <h1 class="text-6xl font-bold">ConvoLink</h1>
+                        <p class="text-lg mt-4">Join meetings seamlessly with ConvoLink.</p>
+                        <a href="/videoRoom" class="bg-sky-700 text-white px-6 py-3 rounded-full mt-6 inline-block hover:bg-sky-600">Join a Meeting</a
     >
   </div>
 </section>
@@ -51,23 +57,22 @@
                 <!-- Call-to-action buttons -->
                 <div class="mt-8">
                     <a href="/sign-up" class="bg-teal-600 text-white px-8 py-4 rounded-full mr-3 hover:bg-teal-700">Sign Up</a>
-            <span class="text-gray-600">OR</span>
-            <a href="/sign-in" class="bg-teal-600 text-white px-8 py-4 rounded-full ml-3 hover:bg-teal-700">Sign In</a>
-        </div>
-        </div>
-    </section>
-    </div>
+                        <span class="text-gray-600">OR</span>
+                        <a href="/sign-in" class="bg-teal-600 text-white px-8 py-4 rounded-full ml-3 hover:bg-teal-700">Sign In</a>
+                    </div>
+                    </div>
+                </section>
+                </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-gradient-to-r from-green-400 to-teal-500 text-white py-6">
-        <!-- Adjust footer background color -->
-        <div class="container mx-auto text-center">
-            <p>&copy; 2023 ConvoLink. All rights reserved.</p>
-            <!-- Social media icons (replace with actual links) -->
-            <div class="mt-4">
-                <a href="#" class="text-white mr-4"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="text-white mr-4"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
-            </div>
-        </div>
-    </footer>
+                <!-- Footer Section -->
+                <footer class="bg-gray-900 text-white py-6">
+                    <div class="container mx-auto text-center">
+                        <p>&copy; 2023 ConvoLink. All rights reserved.</p>
+                        <!-- Social media icons (replace with actual links) -->
+                        <div class="mt-4">
+                            <a href="#" class="text-white mr-4"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-white mr-4"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </footer>
