@@ -14,38 +14,37 @@
     </div>
     <img src="" id="imgUser" style="display: none;" alt="">
 
-    <canvas id="canvas" style="display: none;"></canvas>
-    <canvas id="canvas2" style="display: none;"></canvas>
-    <div class="main ">
+    <canvas id="canvas" style="display: none"></canvas>
+    <canvas id="canvas2" style="display: none"></canvas>
+    <div class="main">
         <div class="main_left">
             <div class="main_videos">
-                <div id="video-grid">
-
-                </div>
+                <div id="video-grid"></div>
             </div>
             <div class="main_controls">
                 <div class="main_controls_block">
                     <div onclick="muteUnmute()" class="main_controls_button main_mute_button">
                         <i class="fa-solid fa-microphone"></i>
-                        <span>Mute</span>
                     </div>
                     <div onclick="playStop()" class="main_controls_button main_video_button">
                         <i class="fa-solid fa-video-slash"></i>
-                        <span>Stop Video</span>
                     </div>
                 </div>
                 <div class="main_controls_block align-items-center">
-                    <p><b>Room ID :</b>
+                    <p>
+                        <b>Room ID :</b>
                         <%=roomId%>
                     </p>
                 </div>
                 <div class="main_controls_block">
                     <div class="main_controls_button" id="leaveButton">
-                        <span class="leave_meeting"><a href="/" style="text-decoration: none; color:red;">Leave Meeting</a> </span>
+                        <span class="leave_meeting">
+            <a href="/"><i class="fa-solid fa-phone-slash" style="color: #fd3535"></i></a>
+          </span>
+                        </span>
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="main_right">
             <div class="main_header">
