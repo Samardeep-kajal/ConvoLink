@@ -46,6 +46,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: false }));
 app.use(cors());
 
 app.use("/api/auth", require("./routes/userRoutes"));
+app.use("/api", require("./routes/groupRoutes"));
 // app.use((req, res, next) => {
 //   res.locals.currentUser = req.user;
 //   // res.locals.success = req.flash("success");
