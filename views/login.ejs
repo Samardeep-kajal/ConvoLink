@@ -76,8 +76,6 @@
               if (responseData.success) {
                 alert("Login successful");
                 window.location.href = "/videoRoom";
-                console.error(responseData.error);
-                alert("Login failed. Please check the entered information.");
               }
             } catch (error) {
               console.error("Login failed:", error);

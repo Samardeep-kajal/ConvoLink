@@ -27,7 +27,6 @@ navigator.mediaDevices
         });
 
         socket.on("user-connected", (userId) => {
-            // connectToNewUser() gets triggered before the user has finished the navigator promise
             setTimeout(connectToNewUser, 1000, userId, stream);
         });
 
