@@ -40,9 +40,11 @@ navigator.mediaDevices
       }
     });
 
-    socket.on("createMessage", (message) => {
+    socket.on("createMessage", (data) => {
+      console.log("Data: ", data);
+      const { message, userId, userInfo } = data;
       $(".messages").append(
-        `<li class="message"><b>User</b>:  ${message}</li>`
+        `<li class="message"><b>${currentUser.name}</b>:  ${message}</li>`
       );
       scrollToBottom();
     });
