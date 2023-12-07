@@ -1,62 +1,48 @@
 <% layout('layout/boilerplate.ejs') %>
-    <div class="container">
-        <!-- <% 
-        const members = group.members.map(m => JSON.parse(m).name)
-        if(members.includes(currentUser.name) || group.author ){
-            %>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-primary"><a style="text-decoration: none;" class="link link-light" href="/<%= group.roomid %>">Join Room</a></button>
+    <div class="container mx-auto">
+        <% const members = group.members.map(m => JSON.parse(m).name) %>
+            <div class="flex items-center justify-between mb-8 mt-8">
+                <h1 class="text-4xl font-bold text-teal-600">
+                    <%= group.title %>
+                </h1>
+                <% if (members.includes(currentUser.name) || group.author == currentUser.name ) { %>
+                    <a href="/<%= group.roomid %>">
+                        <button class="bg-gradient-to-r from-teal-400 to-teal-600 text-white py-2 px-4 rounded-md">
+                    Join Room
+                </button>
+                    </a>
+                    <% } %>
             </div>
-            <%}%>
 
+            <h3 class="text-lg mb-4">
+                Admin:
+                <%= group.author %>
+            </h3>
 
-                <div class="d-felx justify-content-start">
-                    <h1>
-                        <%= group.title %>
-                    </h1>
-                    <h3>
-                        Admin :
-                        <%= group.author %>
-                    </h3>
+            <% if (currentUser.name === group.author) { %>
+                <form action="/group/<%= group.id %>" novalidate class="validated-form mb-8" method="post">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="name">Add User</label>
+                        <input type="text" class="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 block w-full sm:text-sm border p-2" name="name" required id="name" placeholder="Enter username">
+                    </div>
 
-                </div>
- -->
-                <div>
+                    <div class="mb-4">
+                        <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md" type="submit">Add User</button>
+                    </div>
+                </form>
+                <% } %>
 
-                    <%= console.log(currentUser.name) %>
-                        <% if(currentUser.name === group.author){ %>
-                            <form action="/group/<%=group.id%>" novalidate class="validated-form" method="post">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Add User</label>
-                                    <input type="text" class="form-control" name="name" required id="name" placeholder="Enter username">
-                                    <div class="valid-feedback">
-                                        Looks good!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        *Required
-                                    </div>
+                    <div>
+                        <h4 class="text-2xl font-semibold mb-4">Members</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <% for (let member of group.members) { %>
+                                <div class="bg-gray-100 rounded-md p-4">
+                                    <p class="text-lg font-semibold mb-2">
+                                        <%= JSON.parse(member).name %>
+                                    </p>
+                                    <!-- Add additional member information or actions here -->
                                 </div>
-
-
-                                <div class="mb-3">
-                                    <button class="btn btn-success" type="submit">Add User</button>
-                                </div>
-                            </form>
-                            <% } %>
-
-
-
-                                <div>
-                                    <h4>Members</h4>
-                                    <ul>
-                                        <% for(let member of group.members){ %>
-                                            <li>
-                                                <%= JSON.parse(member).name %>
-                                            </li>
-                                            <% } %>
-                                    </ul>
-
-                                </div>
-
-                </div>
+                                <% } %>
+                        </div>
+                    </div>
     </div>
