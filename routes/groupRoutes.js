@@ -4,12 +4,13 @@ const Group = require('../models/groupModel')
 // const User = require('../models/userModel')
 const  fetchuser  = require('../middleware/errorMiddleware');
 // const { json } = require('body-parser');
-// const { v4: uuidv4 } = require('uuid')
+const { v4: uuidv4 } = require('uuid')
 
 
 
-router.get("/test", async (req, res) => {
+router.get("/test",fetchuser, async (req, res) => {
     console.log("hi");
+    // console.log(req.body)
     res.send("request send");
   });
   router.get("/group",fetchuser,async(req,res)=>{
@@ -23,31 +24,43 @@ router.get("/test", async (req, res) => {
   })
 router.post("/group/create",fetchuser, async(req, res) => {
         try {
-            const newGroup = new Group(req.body)
-            newGroup.author = req.user.name
-            newGroup.roomid = uuidv4()
-            await newGroup.save()
-            req.flash('success', 'Group created successfully')
-            res.redirect('/')
+            // const newGroup = new Group(req.body)
+            // newGroup.author = req.user.id
+            // newGroup.roomid = uuidv4()
+            // await newGroup.save()
+            // res.send( 'Group created successfully')
+            // res.redirect('/')
+            const { title } = req.body
+            const group = new Group({
+                title:title,
+                author: req.user.id,
+                roomid:uuidv4()
+            })
+            const saveGroup = await group.save();
+            res.send( 'Group created successfully')
+    
+            res.json(saveGroup)
         } catch (e) {
-            req.flash('error', e.message)
-            res.redirect('/')
+            res.send('error')
+            // res.redirect('/')
         }
 
     })
 
-router.get('/group/all',async(req, res) => {
-        // const groups = await Group.find({})
-        // res.render('allGroups.ejs', { groups })
-    })
-
-// router.route('/group/:id')
-//     .get(fetchuser, async(req, res) => {
-//         const group = await Group.findById(req.params.id)
-//         const members = group.members
-//         res.render('group/showGroup.ejs', { group })
+// router.get('/group/all',async(req, res) => {
+//         const groups = await Group.find({})
+//         res.render('allGroups.ejs', { groups })
 //     })
-//     .post(fetchuser, async(req, res) => {
+
+// router.get('/group/:id',fetchuser, async(req, res) => {
+//     console.log("get by id")
+//         const group = await Group.findById(req.params.id)
+//         // const members = group.members
+//         res.render('group/showGroup.ejs', { group })
+//         res.send(group)
+//     })
+
+//     router.post(fetchuser, async(req, res) => {
 //         try {
 //             const username = req.body
 //             const currentGroup = await Group.findById(req.params.id)
