@@ -1,5 +1,16 @@
-<nav class="flex justify-center space-x-4 bg-green-300 font-mono ">
-    <a href="/home" class="font-medium px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
-    <a href="/about" class="font-medium px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">About</a>
-    <a href="/groups" class="font-medium px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Groups</a>
+<nav class="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-teal-400 to-blue-500 font-sans text-white">
+    <span class="text-white text-xl font-bold">ConvoLink</span>
+    <div class="flex justify-center flex-1">
+        <a href="/home" class="font-sans font-medium px-3 py-2 text-white rounded-lg hover:bg-teal-600">Home</a>
+        <a href="/about" class="font-sans font-medium px-3 py-2 text-white rounded-lg hover:bg-teal-600">About</a>
+        <a href="/groups" class="font-sans font-medium px-3 py-2 text-white rounded-lg hover:bg-teal-600">Groups</a>
+    </div>
+    <% if (currentUser) { %>
+        <div class="flex items-center">
+            <i class="fas fa-user text-lg mr-2"></i>
+            <span class="text-lg"><%= currentUser.name %></span>
+        </div>
+        <% } else { %>
+            <span class="font-sans text-lg ml-auto">User not logged In</span>
+            <% } %>
 </nav>
