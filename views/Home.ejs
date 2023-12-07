@@ -1,20 +1,13 @@
 <% layout('layout/boilerplate.ejs') %>
-    <% if (currentUser) { %>
-        <p>Welcome
-            <%= currentUser.name %>!</p>
-        <!-- Display other user information as needed -->
-        <% } else { %>
-            <p>User not logged in.</p>
-            <% } %>
-                <!-- Hero Section -->
-                <section class="bg-blue-500 py-16 text-white text-center">
-                    <div class="container mx-auto">
-                        <h1 class="text-6xl font-bold">ConvoLink</h1>
-                        <p class="text-lg mt-4">Join meetings seamlessly with ConvoLink.</p>
-                        <a href="/videoRoom" class="bg-sky-700 text-white px-6 py-3 rounded-full mt-6 inline-block hover:bg-sky-600">Join a Meeting</a
-    >
-  </div>
-</section>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-green-400 to-teal-500 py-16 text-white text-center">
+        <div class="container mx-auto">
+            <h1 class="text-6xl font-bold">ConvoLink</h1>
+            <p class="text-lg mt-4">Join meetings seamlessly with ConvoLink.</p>
+            <a href="/videoRoom" class="bg-teal-600 text-white px-6 py-3 rounded-full mt-6 inline-block hover:bg-teal-700">Join a Meeting</a>
+        </div>
+    </section>
 
     <!-- Features and Call to Action Section -->
     <div class="flex">
@@ -46,33 +39,64 @@
                 </div>
             </div>
         </section>
+        <!-- Features and Call to Action Section -->
+        <div class="flex">
+            <!-- Features Section -->
+            <section class="bg-gradient-to-r from-green-100 to-teal-100 py-12 flex-1">
+                <div class="container mx-auto">
+                    <h2 class="text-4xl font-semibold mb-6 text-center">Features</h2>
+                    <div class="flex justify-center gap-8">
+                        <!-- Video Conferencing Card -->
+                        <div class="bg-white p-4 rounded-lg shadow w-64 m-4">
+                            <div class="text-xl text-green-600 mb-2">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold">Video Conferencing</h3>
+                            <p class="text-gray-600">
+                                Connect with others through high-quality video calls.
+                            </p>
+                        </div>
+                        <!-- Network Stability Card -->
+                        <div class="bg-white p-4 rounded-lg shadow w-64 m-4">
+                            <div class="text-xl text-green-600 mb-2">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold">Network Stability</h3>
+                            <p class="text-gray-600">
+                                Enjoy reliable network stability ensuring uninterrupted video calls.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Call to Action Section -->
-        <section class="bg-gradient-to-r from-green-200 to-teal-200 py-16 flex-1">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-semibold mb-6">Ready to get started?</h2>
-                <p class="text-gray-600">
-                    Join ConvoLink now and experience seamless video conferencing.
-                </p>
-                <!-- Call-to-action buttons -->
-                <div class="mt-8">
-                    <a href="/sign-up" class="bg-teal-600 text-white px-8 py-4 rounded-full mr-3 hover:bg-teal-700">Sign Up</a>
+            <!-- Call to Action Section -->
+            <section class="bg-gradient-to-r from-green-200 to-teal-200 py-16 flex-1">
+                <div class="container mx-auto text-center">
+                    <h2 class="text-4xl font-semibold mb-6">Ready to get started?</h2>
+                    <p class="text-gray-600">
+                        Join ConvoLink now and experience seamless video conferencing.
+                    </p>
+                    <!-- Call-to-action buttons -->
+                    <div class="mt-8">
+                        <a href="/sign-up" class="bg-teal-600 text-white px-8 py-4 rounded-full mr-3 hover:bg-teal-700">Sign Up</a>
                         <span class="text-gray-600">OR</span>
                         <a href="/sign-in" class="bg-teal-600 text-white px-8 py-4 rounded-full ml-3 hover:bg-teal-700">Sign In</a>
                     </div>
-                    </div>
-                </section>
                 </div>
+            </section>
+        </div>
 
-                <!-- Footer Section -->
-                <footer class="bg-gray-900 text-white py-6">
-                    <div class="container mx-auto text-center">
-                        <p>&copy; 2023 ConvoLink. All rights reserved.</p>
-                        <!-- Social media icons (replace with actual links) -->
-                        <div class="mt-4">
-                            <a href="#" class="text-white mr-4"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="text-white mr-4"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </footer>
+        <!-- Footer Section -->
+        <footer class="bg-gradient-to-r from-green-400 to-teal-500 text-white py-6">
+            <!-- Adjust footer background color -->
+            <div class="container mx-auto text-center">
+                <p>&copy; 2023 ConvoLink. All rights reserved.</p>
+                <!-- Social media icons (replace with actual links) -->
+                <div class="mt-4">
+                    <a href="#" class="text-white mr-4"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white mr-4"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </footer>
