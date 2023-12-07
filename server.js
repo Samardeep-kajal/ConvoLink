@@ -61,6 +61,10 @@ app.get("/", (req, res) => {
   res.render("home.ejs", { currentUser: res.locals.currentUser });
 });
 
+app.get("/about", (req, res) => {
+    res.render("about.ejs");
+})
+
 app.get("/sign-in", (req, res) => {
   res.render("login.ejs");
 });
