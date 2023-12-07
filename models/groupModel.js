@@ -9,7 +9,7 @@ const groupSchema = new Schema({
         unique: false
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.String,
         ref: 'user'
     },
     members: [{
@@ -17,7 +17,7 @@ const groupSchema = new Schema({
         ref: 'user'
     }],
     roomid: {
-        type: String,
+        type: Schema.Types.String,
         unique: true
     }
 })

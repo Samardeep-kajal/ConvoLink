@@ -1,8 +1,8 @@
 <% layout('layout/boilerplate.ejs') %>
     <div class="container">
-        <% 
-        const members = group.members.map(m => JSON.parse(m).username)
-        if(members.includes(currentUser.username) || group.author ){
+        <!-- <% 
+        const members = group.members.map(m => JSON.parse(m).name)
+        if(members.includes(currentUser.name) || group.author ){
             %>
             <div class="d-flex justify-content-end">
                 <button class="btn btn-primary"><a style="text-decoration: none;" class="link link-light" href="/<%= group.roomid %>">Join Room</a></button>
@@ -20,15 +20,15 @@
                     </h3>
 
                 </div>
-
+ -->
                 <div>
 
-                    <%= console.log(currentUser.username) %>
-                        <% if(currentUser.username === group.author){ %>
+                    <%= console.log(currentUser.name) %>
+                        <% if(currentUser.name === group.author){ %>
                             <form action="/group/<%=group.id%>" novalidate class="validated-form" method="post">
                                 <div class="mb-3">
-                                    <label class="form-label" for="username">Add User</label>
-                                    <input type="text" class="form-control" name="username" required id="username" placeholder="Enter username">
+                                    <label class="form-label" for="name">Add User</label>
+                                    <input type="text" class="form-control" name="name" required id="name" placeholder="Enter username">
                                     <div class="valid-feedback">
                                         Looks good!
                                     </div>
@@ -51,7 +51,7 @@
                                     <ul>
                                         <% for(let member of group.members){ %>
                                             <li>
-                                                <%= JSON.parse(member).username %>
+                                                <%= JSON.parse(member).name %>
                                             </li>
                                             <% } %>
                                     </ul>
