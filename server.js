@@ -63,8 +63,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-    res.render("about.ejs");
-})
+  res.render("about.ejs");
+});
 
 app.get("/sign-in", (req, res) => {
   res.render("login.ejs");
@@ -75,10 +75,7 @@ app.get("/sign-up", (req, res) => {
 });
 
 app.get("/videoRoom", (req, res) => {
-  res.render("video.ejs", {
-    roomId: "#########",
-    currentUser: res.locals.currentUser,
-  });
+  res.render("video.ejs", { roomId: "#########" });
 });
 //Socket IO Functionality
 app.get("/join-meeting", (req, res) => {
@@ -90,19 +87,12 @@ app.get("/:room", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  socket.on("join-room", (roomId, userId, userInfo) => {
+  socket.on("join-room", (roomId, userId) => {
     socket.join(roomId);
     socket.broadcast.to(roomId).emit("user-connected", userId);
-
-    // Emit the user-info event
-    io.to(roomId).emit("user-info", { userId, userInfo });
-
     socket.on("message", (message) => {
-      io.to(roomId).emit("createMessage", { message, userId, userInfo });
+      io.to(roomId).emit("createMessage", message);
     });
-    // socket.on("message", (message) => {
-    //     io.to(roomId).emit("createMessage", message);
-    // });
     socket.on("disconnect", () => {
       socket.broadcast.to(roomId).emit("user-disconnected", userId);
     });
