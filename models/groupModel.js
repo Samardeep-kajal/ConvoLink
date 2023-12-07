@@ -9,7 +9,7 @@ const groupSchema = new Schema({
         unique: false
     },
     author: {
-        type: Schema.Types.String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
     members: [{
