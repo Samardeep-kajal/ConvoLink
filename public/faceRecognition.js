@@ -58,9 +58,11 @@ setInterval(() => {
         console.log(detection.length);
 
         if (detection.length === 0) {
-          window.alert("No is present on screen");
+          window.alert("Warning: No one is present on screen!");
         } else if (detection.length > 1) {
-          window.alert("More than one people is present on the screen");
+          window.alert(
+            "Warning: More than one people are present on the screen!"
+          );
         }
       });
   });
