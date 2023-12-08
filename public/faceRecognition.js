@@ -35,7 +35,7 @@ const draw = async () => {
   imageUrl = destCanvas.toDataURL();
   img.src = imageUrl;
 };
-setInterval(draw, 5000);
+setInterval(draw, 20000);
 
 // using TenserFlow Models
 setInterval(() => {
@@ -66,7 +66,7 @@ setInterval(() => {
         }
       });
   });
-}, 5000);
+}, 30000);
 
 // let loadingModule = async () => {
 //   await faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
