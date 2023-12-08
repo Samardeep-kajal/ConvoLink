@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Group = require("../models/groupModel");
-// const User = require('../models/userModel')
+const User = require("../models/userModel");
 const fetchuser = require("../middleware/errorMiddleware");
 // const { json } = require('body-parser');
 const { v4: uuidv4 } = require("uuid");
@@ -69,16 +69,14 @@ router.post("/group/:id", async (req, res) => {
     const currentGroup = await Group.findById(req.params.id);
     const requiredUser = await User.findOne(name);
     if (requiredUser === null) {
-      // req.flash('error', 'Not valid Username')
       res.redirect("/group/all");
     } else {
       currentGroup.members.push(JSON.stringify(requiredUser));
       await currentGroup.save();
-      // req.flash('success', "user added")
       res.redirect(`/group/${req.params.id}`);
     }
   } catch (e) {
-    req.send("error", e.message);
+    res.send(e.message);
   }
 });
 
