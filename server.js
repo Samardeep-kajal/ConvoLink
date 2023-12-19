@@ -16,24 +16,22 @@ const { cloudinary } = require("./utils/cloudinary");
 const path = require("path");
 
 connectDB();
-app.use(
-  session({
-    secret: "your_secret_key", // Replace 'your_secret_key' with your own secret key
+app.use(session({
+    secret: 'your_secret_key', // Replace 'your_secret_key' with your own secret key
     resave: false,
     saveUninitialized: false,
     // Other configuration options as needed
-  })
-);
+}));
 
 // Middleware function to check for logged-in user
 const checkAuthentication = (req, res, next) => {
-  // Check if user information exists in the session or token
-  // Example: Assuming user information is stored in req.session.user after login
-  if (req.session && req.session.user) {
-    console.log("----------------");
-    res.locals.currentUser = req.session.user;
-  }
-  next();
+    // Check if user information exists in the session or token
+    // Example: Assuming user information is stored in req.session.user after login
+    if (req.session && req.session.user) {
+        console.log("----------------")
+        res.locals.currentUser = req.session.user;
+    }
+    next();
 };
 
 // Use the middleware for all routes
@@ -58,64 +56,75 @@ app.use("/", require("./routes/groupRoutes"));
 // });
 
 app.get("/", (req, res) => {
-  console.log("-------------->", res.locals.currentUser);
-  res.render("home.ejs", { currentUser: res.locals.currentUser });
+    console.log("-------------->", res.locals.currentUser);
+    res.render("home.ejs", { currentUser: res.locals.currentUser });
 });
+
+app.get('/middleware', (req, res) => {
+    id = uuidV4()
+    console.log("id === ", id)
+    res.redirect(`/${id}`)
+})
 
 app.get("/about", (req, res) => {
-  res.render("about.ejs");
-});
+    res.render("about.ejs");
+})
 
 app.get("/sign-in", (req, res) => {
-  res.render("login.ejs");
+    res.render("login.ejs");
 });
 
 app.get("/sign-up", (req, res) => {
-  res.render("signup.ejs");
+    res.render("signup.ejs");
 });
 
-app.get("/videoRoom", (req, res) => {
-  res.render("video.ejs", { roomId: "#########" });
+app.get("/:id", (req, res) => {
+    if (req.params.id.length != uuidV4().length) {
+        res.redirect('/')
+    } else { res.render('video.ejs', { roomId: req.params.id }) }
+
+    // res.render("video.ejs", { roomId: "#########" });
 });
+
 //Socket IO Functionality
-app.get("/join-meeting", (req, res) => {
-  res.redirect(`/${uuidV4()}`);
-});
+// app.get("/join-meeting", (req, res) => {
+//     res.redirect(`/${uuidV4()}`);
+// });
 
-app.get("/:room", (req, res) => {
-  res.render("room", { roomId: req.params.room });
-});
+// app.get("/:room", (req, res) => {
+//     res.render("room", { roomId: req.params.room });
+// });
 
 io.on("connection", (socket) => {
-  socket.on("join-room", (roomId, userId) => {
-    socket.join(roomId);
-    socket.broadcast.to(roomId).emit("user-connected", userId);
-    socket.on("message", (message) => {
-      io.to(roomId).emit("createMessage", message);
+    socket.on("join-room", (roomId, userId) => {
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit("user-connected", userId);
+        socket.on("message", (message) => {
+            io.to(roomId).emit("createMessage", message);
+        });
+        socket.on("disconnect", () => {
+            socket.broadcast.to(roomId).emit("user-disconnected", userId);
+        });
     });
-    socket.on("disconnect", () => {
-      socket.broadcast.to(roomId).emit("user-disconnected", userId);
-    });
-  });
 });
 
 //Image preview and Cloudinary upload
 
-app.post("/api/upload", upload.single("img"), async (req, res) => {
-  console.log("File details: ", req.file);
+app.post("/api/upload", upload.single("img"), async(req, res) => {
+    console.log("File details: ", req.file);
 
-  try {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const post_details = {
-      title: req.body.title,
-      image: result.public_id,
-    };
-    // console.log(result);
-    // res.status(200).json({ post_details });
-    // res.render("success");
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const post_details = {
+            title: req.body.title,
+            image: result.public_id,
+        };
+        // console.log(result);
+        // res.status(200).json({ post_details });
+        // res.render("success");
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 const port = 8000;
