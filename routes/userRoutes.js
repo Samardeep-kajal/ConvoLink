@@ -17,15 +17,22 @@ router.post(
     "/createuser", [
         body("name", "Enter a valid Name").isLength({ min: 3 }),
         body("password", "Password must be 5 characters long").isLength({ min: 5 }),
+        body("cnfpassword", "Password must be 5 characters long").isLength({ min: 5 }),
         body("email", "Enter a valid Email").isEmail(),
     ],
     async(req, res) => {
+        console.log(req.body)
+        // console.log("hii1");
         let success = false;
         const errors = validationResult(req);
+        if(req.body.password !== req.body.cnfpassword){
+            return res.status(400).json({ success, errors: "passwords are not same" });
+        }
         if (!errors.isEmpty()) {
             return res.status(400).json({ success, errors: errors.array() });
         }
         try {
+            // console.log("hii2");
             const salt = await bcrypt.genSalt(10);
             const secPass = await bcrypt.hash(req.body.password, salt);
             let user = await User.create({
@@ -41,7 +48,17 @@ router.post(
             const authToken = jwt.sign(data, process.env.JWT_SECRET);
 
             success = true;
-            res.json({ success, authToken });
+            // if (success) {
+            //     alert("User registered successfully");
+                
+            //   }
+            // res.json({ success, authToken });
+            res.redirect('/sign-in')
+            
+
+           
+           
+
         } catch (err) {
             res.status(500).json({ error: err.message });
         }

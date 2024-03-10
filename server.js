@@ -99,6 +99,7 @@ app.post("/api/upload", upload.single("img"), async (req, res) => {
 
   try {
     const result = await cloudinary.uploader.upload(req.file.path);
+    console.log(result)
     const post_details = {
       title: req.body.title,
       image: result.public_id,
