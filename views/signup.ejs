@@ -1,162 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Signup</title>
-  </head>
-  <body>
-    <div class="flex h-screen bg-slate-900 items-center justify-center">
-      <div class="w-96 p-6 shadow-lg bg-white rounded-md">
-        <h1 class="text-center font-semibold text-3xl">
-          <i class="fa-solid fa-user"></i>&nbsp;&nbsp;Sign up
-        </h1>
-        <hr class="mt-3" />
-        <div class="mt-3">
-          <label for="username" class="block mb-2 text-base">Username</label>
-          <input
-            type="name"
-            id="username"
-            required
-            class="w-full text-base px-2 py-1 border-2 border-slate-400 rounded-sm"
-            placeholder="Enter Username..."
-          />
-          <label for="email" class="block mb-2 text-base mt-2">Email</label>
-          <input
-            type="email"
-            id="email"
-            required
-            class="w-full text-base px-2 py-1 border-2 border-slate-400"
-            placeholder="Enter Email..."
-          />
 
-          <label for="password" class="block mb-2 text-base mt-2"
-            >Password</label
-          >
-          <input
-            type="password"
-            id="password"
-            required
-            class="w-full text-base px-2 py-1 border-2 border-slate-400"
-            placeholder="Enter Password..."
-          />
-          <label for="password2" class="block mb-2 text-base mt-2"
-            >Confirm Password</label
-          >
-          <input
-            type="password"
-            id="password2"
-            required
-            class="w-full text-base px-2 py-1 border-2 border-slate-400 mb-2"
-            placeholder="Confirm Password..."
-          />
-        </div>
-        <form action="/api/upload" method="POST" enctype="multipart/form-data">
-          <label for="img">Profile Picture</label>
-          <div class="flex mt-1 items-center">
-            <img
-              src=""
-              id="image-preview"
-              alt="Your picked image"
-              class="rounded-full h-16 w-16 object-cover hidden"
-            />
-            <!-- required -->
-            <input type="file" name="img" id="img" class="ml-3.5" required />
-          </div>
-          <button
-            class="font-semibold rounded-md w-half mt-5 ml-3 px-2 py-1 bg-slate-950 text-white hover:bg-slate-800"
-          >
-            Upload &nbsp;<i class="fa-solid fa-arrow-right-to-bracket"></i>
-          </button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Signup Page</title>
+</head>
+
+<body class="bg-gray-900 text-white h-screen flex items-center justify-center">
+
+    <div class="w-96 p-8 bg-gray-800 rounded-lg text-left">
+        <h1 class="text-3xl font-bold mb-6 text-center">Sign Up</h1>
+
+        <form action="/api/auth/createuser" novalidate class="validated-form" method="post" enctype="multipart/form-data">
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2" for="email">Email</label>
+                <input type="email" class="form-input w-full px-4 py-2 bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md" name="email" required id="email" placeholder="Your Email">
+            </div>
+
+            <div class="mb-4 flex space-x-2">
+                <div>
+                    <label class="block text-sm font-bold mb-2" for="name">Name</label>
+                    <input type="text" class="form-input w-full px-4 py-2 bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md" name="name" required id="Name" placeholder="Your Name">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-2" for="password">Password</label>
+                    <input type="password" class="form-input w-full px-4 py-2 bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md" name="password" required id="password" placeholder="Your Password">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-sm font-bold mb-2">Add Profile Photo</label>
+                <div class="relative border-dashed border-2 border-gray-600 rounded-md p-4">
+                    <input type="file" class="hidden" name="image" id="image" accept="image/*" onchange="displayImagePreview(this)">
+                    <label for="image" class="cursor-pointer text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 mx-auto">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span class="text-xs" id="file-label">Choose a file</span>
+                    </label>
+                    <div id="image-preview" class="mt-2 flex items-center space-x-2"></div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" type="submit">Sign Up</button>
+            </div>
+
         </form>
-        <form id="signupForm">
-          <button
-            class="font-semibold rounded-md w-full mt-5 px-2 py-1 bg-slate-950 text-white hover:bg-slate-800"
-          >
-            Submit &nbsp;<i class="fa-solid fa-arrow-right-to-bracket"></i>
-          </button>
-        </form>
-        <div class="mt-3 text-center">
-          Already have an account?
-          <a href="sign-in" class="font-bold text-blue-600">Login</a>
-        </div>
-      </div>
+
+        <p class="text-sm text-center">Already have an account? <a href="/sign-in" class="text-blue-500">Login</a></p>
     </div>
 
     <script>
-      const filePickerElement = document.getElementById("img");
-      const imagePreviewElement = document.getElementById("image-preview");
+        function displayImagePreview(input) {
+            const fileLabel = document.getElementById('file-label');
+            const imagePreview = document.getElementById('image-preview');
+            const file = input.files[0];
 
-      function showPreview() {
-        const files = filePickerElement.files;
-        //No file selected
-        if (!files || files.length == 0) {
-          imagePreviewElement.style.display = "none";
-          imagePreviewElement.classList.add("hidden");
-          return;
-        }
-        const pickedFile = files[0];
-        /*The createObejctURL function of URL class creates a URL of the picked file on the client side or local computer
-      as we have still not submitted the selected file to the server.*/
-        imagePreviewElement.src = URL.createObjectURL(pickedFile);
-        console.log(imagePreviewElement.src);
-        imagePreviewElement.style.display = "block";
-      }
+            fileLabel.textContent = file ? file.name : 'Choose a file';
 
-      //The change event occurs when the value inside the input element changes.
-      /*The change event triggers when we select a file or unselect a selected file by clicking
-      (When a file is already selected and when we click on choose file button and click cancel then the selected file is removed)*/
-
-      filePickerElement.addEventListener("change", showPreview);
-    </script>
-    <script>
-      document
-        .getElementById("signupForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-
-          const username = document.getElementById("username").value;
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const password2 = document.getElementById("password2").value;
-
-          if (password !== password2) {
-            alert("Passwords do not match. Please re-enter.");
-            return;
-          }
-
-          try {
-            const response = await axios.post("/api/auth/createuser", {
-              name: username,
-              email: email,
-              password: password,
-            });
-
-            const responseData = response.data;
-            console.log(responseData);
-            if (responseData.success) {
-              alert("User registered successfully");
-              window.location.href = "/sign-in";
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'w-12 h-12 rounded-md';
+                    const fileName = document.createElement('span');
+                    fileName.textContent = file.name;
+                    fileName.className = 'text-sm';
+                    imagePreview.innerHTML = '';
+                    imagePreview.appendChild(img);
+                    imagePreview.appendChild(fileName);
+                };
+                reader.readAsDataURL(file);
             } else {
-              console.error(responseData.error);
-              alert(
-                "User registration failed. Please check the entered information."
-              );
+                imagePreview.innerHTML = '';
             }
-          } catch (error) {
-            console.error("User registration failed:", error);
-            alert("User registration failed. Please try again later.");
-          }
-        });
+        }
     </script>
-  </body>
+
+</body>
+
 </html>
