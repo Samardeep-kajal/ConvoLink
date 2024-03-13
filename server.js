@@ -94,19 +94,23 @@ io.on("connection", (socket) => {
 
 //Image preview and Cloudinary upload
 
-app.post("/api/upload", upload.single("img"), async (req, res) => {
-  console.log("File details: ", req.file);
+// app.post("/api/upload", upload.single("img"), async(req, res) => {
+//     console.log("File details: ", req.file);
 
-  try {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const post_details = {
-      title: req.body.title,
-      image: result.public_id,
-    };
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     try {
+//         const result = await cloudinary.uploader.upload(req.file.path);
+//         const post_details = {
+//             title: req.body.title,
+//             image: result.public_id,
+//         };
+//         console.log("------------------++++++++++++++++---------------", result);
+//         // res.status(200).json({ post_details });
+//         // res.render("success");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
+
 
 const port = 8000;
 server.listen(port, () => console.log(`Server started on port ${port}`));

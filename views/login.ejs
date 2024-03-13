@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,49 +51,49 @@
                 >Remember me?</label
               >
             </div>
-            <div>
-              <a
-                href="#"
-                class="text-indigo-500 font-semibold"
-                class="sm:text-md md:text-base"
-                >Forgot Password?</a
-              >
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2" for="password">Password</label>
+                <input type="password" class="form-input w-full px-4 py-2 bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md" name="password" required id="password" placeholder="Enter your password">
             </div>
-          </div> -->
-          <button
-            class="font-semibold rounded-md w-full mt-5 px-2 py-1 bg-slate-950 text-white hover:bg-slate-800"
-          >
-            Login &nbsp;<i class="fa-solid fa-arrow-right-to-bracket"></i>
-          </button>
+
+            <div class="mb-4">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" type="submit">Login</button>
+            </div>
+
         </form>
-      </div>
+
+        <p class="text-sm text-center">Don't have an account? <a href="/sign-up" class="text-blue-500">Sign Up</a></p>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        document
-          .getElementById("loginForm")
-          .addEventListener("submit", async (event) => {
-            event.preventDefault();
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("loginForm").addEventListener("submit", async(event) => {
+                event.preventDefault();
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
 
-            try {
-              const response = await axios.post("/api/auth/login", {
-                email: email,
-                password: password,
-              });
+                try {
+                    const response = await axios.post("/api/auth/login", {
+                        email: email,
+                        password: password,
+                    });
 
-              const responseData = response.data;
-              if (responseData.success) {
-                window.location.href = "/ ";
-              }
-            } catch (error) {
-              console.error("Login failed:", error);
-              alert("Login failed. Please try again later.");
-            }
-          });
-      });
+                    const responseData = response.data;
+                    if (responseData.success) {
+                        alert("Login successful");
+                        window.location.href = "/";
+                    }
+                } catch (error) {
+                    console.error("Login failed:", error);
+                    alert("Login failed. Please try again later.");
+                }
+            });
+        });
     </script>
-  </body>
+
+</body>
+
 </html>

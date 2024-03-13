@@ -7,32 +7,45 @@ const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/errorMiddleware");
 const dotenv = require("dotenv").config();
 const session = require("express-session");
+const mutler = require('multer')
+const upload = require("../utils/multer");
+const { cloudinary } = require("../utils/cloudinary");
+
 
 router.get("/one", async(req, res) => {
     console.log("hi");
     res.send("request send");
 });
 
+// , [
+//     body("name", "Enter a valid Name").isLength({ min: 3 }),
+//     body("password", "Password must be 5 characters long").isLength({ min: 5 }),
+//     body("email", "Enter a valid Email").isEmail(),
+//     body("image", "valid file format")
+// ]
+
 router.post(
-    "/createuser", [
-        body("name", "Enter a valid Name").isLength({ min: 3 }),
-        body("password", "Password must be 5 characters long").isLength({ min: 5 }),
-        body("email", "Enter a valid Email").isEmail(),
-    ],
+    "/createuser", upload.single("image"),
     async(req, res) => {
-        let success = false;
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ success, errors: errors.array() });
-        }
+        // let success = false;
+        // const errors = validationResult(req);
+        // if (!errors.isEmpty()) {
+        //     console.log("ita Meeeeeeee------------e-e--e-e-e")
+        //     return res.status(400).json({ success, errors: errors.array });
+        // }
         try {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: "convoLinkTest"
+            });
             const salt = await bcrypt.genSalt(10);
             const secPass = await bcrypt.hash(req.body.password, salt);
             let user = await User.create({
                 name: req.body.name,
                 password: secPass,
                 email: req.body.email,
+                image: result.secure_url
             });
+            // console.log(user)
             const data = {
                 user: {
                     id: user._id,
@@ -41,9 +54,13 @@ router.post(
             const authToken = jwt.sign(data, process.env.JWT_SECRET);
 
             success = true;
-            res.json({ success, authToken });
+            // console.log({ success, authToken });
+            res.redirect('/sign-in')
         } catch (err) {
-            res.status(500).json({ error: err.message });
+            console.log("its meeeeeeeeeeeeeee")
+            res.status(500).json({
+                error: err.message
+            });
         }
     }
 );
@@ -84,7 +101,8 @@ router.post(
             };
             const authToken = jwt.sign(data, process.env.JWT_SECRET);
             success = true;
-            res.json({ success, authToken });
+            // console.log({ success, authToken });
+            res.redirect('/')
         } catch (err) {
             res.status(500).json({ error: "Internal Server Error" });
         }
