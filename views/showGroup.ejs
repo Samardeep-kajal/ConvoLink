@@ -1,48 +1,121 @@
 <% layout('layout/boilerplate.ejs') %>
-    <div class="container mx-auto">
-        <% const members = group.members.map(m => JSON.parse(m).name) %>
-            <div class="flex items-center justify-between mb-8 mt-8">
-                <h1 class="text-4xl font-bold text-teal-600">
-                    <%= group.title %>
-                </h1>
-                <% if (members.includes(currentUser.name) || group.author == currentUser.name ) { %>
-                    <a href="/<%= group.roomid %>">
-                        <button class="bg-gradient-to-r from-teal-400 to-teal-600 text-white py-2 px-4 rounded-md">
-                    Join Room
-                </button>
-                    </a>
+    <div class="bg-gray-900 text-gray-200 min-h-screen">
+        <div class="container mx-auto px-4 py-8">
+            <% const members = group.members.map(m => JSON.parse(m))%>
+                <div class="flex flex-col md:flex-row md:space-x-8 items-center justify-between mb-8">
+                    <div class="w-full md:w-1/2 flex items-center">
+                        <h1 class="text-4xl font-bold text-teal-400">
+                            <%= group.title %>
+                        </h1>
+                        <p class="text-lg text-gray-400 font-medium ml-4">Owned by:
+                            <%= group.author %>
+                        </p>
+                    </div>
+                    <div class="flex items-center">
+                        <% if (members.some(member => member.name === currentUser.name) || group.author === currentUser.name) { %>
+                            <a href="/<%= group.roomid %>">
+                                <button class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out">
+                                    Join Room
+                                </button>
+                            </a>
+                            <% } %>
+                    </div>
+                </div>
+                <% if (currentUser.name === group.author) { %>
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <form id="addUserForm" action="/group/<%= group.id %>" novalidate class="validated-form bg-gray-800 shadow-md rounded-lg p-4 w-full md:w-1/2 md:self-center md:mr-4" method="post">
+                            <h2 class="text-xl font-semibold mb-4">ADD USER</h2>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" class="border border-gray-600 rounded-l-md focus:outline-none focus:border-teal-500 focus:ring focus:ring-teal-200 focus:ring-opacity-50 block w-full sm:text-sm p-2 text-gray-300 bg-gray-700" name="name" required id="name" placeholder="Enter username">
+                                <button class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-r-md transition duration-300 ease-in-out" type="submit">Add</button>
+                            </div>
+                        </form>
+                        <form id="uploadImageForm" action="/<%= group.id %>/searchface" method="post" enctype="multipart/form-data" rs class="bg-gray-800 shadow-md rounded-lg p-8 w-full md:w-1/2 md:ml-4">
+                            <label for="image" class="block text-gray-400 font-bold mb-2">Upload Profile Photo</label>
+                            <div class="relative border-dashed border-2 border-gray-500 rounded-md p-4">
+                                <input type="file" class="hidden" name="image" id="image" accept="image/*" onchange="displayImagePreview(this)">
+                                <label for="image" class="cursor-pointer text-teal-400 hover:text-teal-500 transition duration-300 ease-in-out">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 mx-auto">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    <span class="text-xs" id="file-label">Choose a file</span>
+                                </label>
+                                <div id="image-preview" class="mt-2 flex items-center space-x-2"></div>
+                            </div>
+                            <input type="hidden" name="members" value="<%= nameList %>">
+                            <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out w-full mt-4" id="uploadButton">
+                                Upload
+                            </button>
+                        </form>
+                    </div>
                     <% } %>
-            </div>
-
-            <h3 class="text-lg mb-4">
-                Admin:
-                <%= group.author %>
-            </h3>
-
-            <% if (currentUser.name === group.author) { %>
-                <form action="/group/<%= group.id %>" novalidate class="validated-form mb-8" method="post">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="name">Add User</label>
-                        <input type="text" class="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 block w-full sm:text-sm border p-2" name="name" required id="name" placeholder="Enter username">
-                    </div>
-
-                    <div class="mb-4">
-                        <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md" type="submit">Add User</button>
-                    </div>
-                </form>
-                <% } %>
-
-                    <div>
-                        <h4 class="text-2xl font-semibold mb-4">Members</h4>
-                        <div class="grid grid-cols-3 gap-4">
-                            <% for (let member of group.members) { %>
-                                <div class="bg-gray-100 rounded-md p-4">
-                                    <p class="text-lg font-semibold mb-2">
-                                        <%= JSON.parse(member).name %>
-                                    </p>
-                                    <!-- Add additional member information or actions here -->
-                                </div>
-                                <% } %>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-4">Members</h4>
+                            <div class="grid grid-cols-3 gap-4">
+                                <% for (let member of members) { %>
+                                    <div class="bg-gray-800 rounded-md p-4 shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center space-x-4">
+                                        <img src="<%= member.image %>" alt="User Image" class="rounded-full w-24 h-24">
+                                        <div>
+                                            <p class="text-lg font-semibold text-gray-300">
+                                                <%= member.name %>
+                                            </p>
+                                            <p class="text-gray-400" style="text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);">
+                                                <%= member.email %>
+                                            </p>
+                                            <!-- Add additional member information or actions here -->
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
                         </div>
-                    </div>
+        </div>
     </div>
+
+    <!-- Loading Spinner Animation -->
+    <div id="loadingOverlay" class="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-gray-900 bg-opacity-50 hidden">
+        <div class="text-center text-white">
+            <div class="spinner inline-block"></div>
+            <p class="text-xl font-semibold mt-4 mb-2">Marking Attendance</p>
+            <p class="text-lg">Thank you for your patience...</p>
+        </div>
+    </div>
+
+    <style>
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script>
+        // Display file name on selection
+        function displayImagePreview(input) {
+            const fileName = input.files[0].name;
+            document.getElementById('file-label').textContent = fileName;
+        }
+
+        // Show loading overlay on form submission
+        document.getElementById('uploadImageForm').addEventListener('submit', function() {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        });
+
+        // Hide loading overlay when upload completes
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        });
+    </script>
+
+    </html>

@@ -17,22 +17,22 @@ const path = require("path");
 
 connectDB();
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+    })
 );
 
 // Middleware function to check for logged-in user
 const checkAuthentication = (req, res, next) => {
-  // Check if user information exists in the session or token
-  // Example: Assuming user information is stored in req.session.user after login
-  if (req.session && req.session.user) {
-    console.log("----------------");
-    res.locals.currentUser = req.session.user;
-  }
-  next();
+    // Check if user information exists in the session or token
+    // Example: Assuming user information is stored in req.session.user after login
+    if (req.session && req.session.user) {
+        console.log("----------------");
+        res.locals.currentUser = req.session.user;
+    }
+    next();
 };
 
 // Use the middleware for all routes
@@ -47,49 +47,57 @@ app.use(cors());
 
 app.use("/api/auth", require("./routes/userRoutes"));
 app.use("/", require("./routes/groupRoutes"));
+app.use("/", require("./routes/faceMatchRoute"));
+// app.use((req, res, next) => {
+//   res.locals.currentUser = req.user;
+//   // res.locals.success = req.flash("success");
+//   // res.locals.error = req.flash("error");
+//   console.log(currentUser);
+//   next();
+// });
 
 app.get("/", (req, res) => {
-  console.log("-------------->", res.locals.currentUser);
-  res.render("home.ejs", { currentUser: res.locals.currentUser });
+    console.log("-------------->", res.locals.currentUser);
+    res.render("home.ejs", { currentUser: res.locals.currentUser });
 });
 
 app.get("/middleware", (req, res) => {
-  id = uuidV4();
-  console.log("id === ", id);
-  res.redirect(`/${id}`);
+    id = uuidV4();
+    console.log("id === ", id);
+    res.redirect(`/${id}`);
 });
 
 app.get("/about", (req, res) => {
-  res.render("about.ejs");
+    res.render("about.ejs");
 });
 
 app.get("/sign-in", (req, res) => {
-  res.render("login.ejs");
+    res.render("login.ejs");
 });
 
 app.get("/sign-up", (req, res) => {
-  res.render("signup.ejs");
+    res.render("signup.ejs");
 });
 
 app.get("/:id", (req, res) => {
-  if (req.params.id.length != uuidV4().length) {
-    res.redirect("/");
-  } else {
-    res.render("video.ejs", { roomId: req.params.id });
-  }
+    if (req.params.id.length != uuidV4().length) {
+        res.redirect("/");
+    } else {
+        res.render("video.ejs", { roomId: req.params.id });
+    }
 });
 
 io.on("connection", (socket) => {
-  socket.on("join-room", (roomId, userId) => {
-    socket.join(roomId);
-    socket.broadcast.to(roomId).emit("user-connected", userId);
-    socket.on("message", (message) => {
-      io.to(roomId).emit("createMessage", message);
+    socket.on("join-room", (roomId, userId) => {
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit("user-connected", userId);
+        socket.on("message", (message) => {
+            io.to(roomId).emit("createMessage", message);
+        });
+        socket.on("disconnect", () => {
+            socket.broadcast.to(roomId).emit("user-disconnected", userId);
+        });
     });
-    socket.on("disconnect", () => {
-      socket.broadcast.to(roomId).emit("user-disconnected", userId);
-    });
-  });
 });
 
 //Image preview and Cloudinary upload
