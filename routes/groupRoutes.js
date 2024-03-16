@@ -18,14 +18,13 @@ router.get("/test", fetchuser, async(req, res) => {
 });
 router.get("/group", async(req, res) => {
     try {
-
-        res.render('groupForm.ejs')
+        res.render("groupForm.ejs");
     } catch (err) {
         res.status(500).send("Internal Server Error ");
     }
-})
+});
 router.post("/group/create", async(req, res) => {
-    console.log(req.body.title)
+    console.log(req.body.title);
     try {
         // const newGroup = new Group(req.body)
         // newGroup.author = req.user.id
@@ -47,18 +46,16 @@ router.post("/group/create", async(req, res) => {
         // res.send( 'Group created successfully')
 
         // res.json(saveGroup)
-        res.redirect('/')
+        res.redirect("/");
     } catch (e) {
-        res.send('error')
+        res.send("error");
     }
+});
 
-})
-
-router.get('/group/all', async(req, res) => {
-
-    const groups = await Group.find({})
-    res.render('allGroups.ejs', { groups })
-})
+router.get("/group/all", async(req, res) => {
+    const groups = await Group.find({});
+    res.render("allGroups.ejs", { groups });
+});
 
 router.get('/group/:id', async(req, res) => {
     const group = await Group.findById(req.params.id)
@@ -92,4 +89,4 @@ router.post('/group/:id', async(req, res) => {
     } catch (e) { res.send(e.message) }
 })
 
-module.exports = router
+module.exports = router;
