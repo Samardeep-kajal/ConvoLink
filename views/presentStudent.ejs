@@ -1,0 +1,38 @@
+<% layout('layout/boilerplate.ejs') %>
+
+    <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold">ATTENDANCE</h1>
+    </div>
+
+    <div class="flex justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <div class="bg-green-100 rounded-lg shadow-lg p-6 mb-4">
+                    <h2 class="text-lg font-semibold mb-2">Present Students (
+                        <%= attendance.presentStudent.length %> )</h2>
+                    <% for (let member of attendance.presentStudent) { %>
+                        <div class="bg-white rounded-lg shadow-md p-4 mb-2">
+                            <p class="text-lg font-semibold mb-2 text-green-800">
+                                <%= member %>
+                            </p>
+                            <!-- Additional content can be added here if needed -->
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+            <div>
+                <div class="bg-red-100 rounded-lg shadow-lg p-6 mb-4">
+                    <h2 class="text-lg font-semibold mb-2">Absentees (
+                        <%= attendance.absentStudent.length %> )</h2>
+                    <% for (let member of attendance.absentStudent) { %>
+                        <div class="bg-white rounded-lg shadow-md p-4 mb-2">
+                            <p class="text-lg font-semibold mb-2 text-red-800">
+                                <%= member %>
+                            </p>
+                            <!-- Additional content can be added here if needed -->
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>

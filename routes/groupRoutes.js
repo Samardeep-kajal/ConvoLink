@@ -3,7 +3,9 @@ const router = express.Router()
 const Group = require('../models/groupModel')
 const User = require('../models/userModel')
 const fetchuser = require('../middleware/errorMiddleware');
-// const { json } = require('body-parser');
+const createFaceCollection = require('../public/js/AWS_faceRekognition/createCollection');
+const registerFace = require('../public/js/AWS_faceRekognition/registerFace')
+    // const { json } = require('body-parser');
 const { v4: uuidv4 } = require('uuid')
 
 
@@ -34,7 +36,7 @@ router.post("/group/create", async(req, res) => {
 
         const { title } = req.body
         console.log("-------------->", res.locals.currentUser);
-
+        await createFaceCollection(title)
         const group = new Group({
             title: title,
             author: res.locals.currentUser.name,
@@ -59,12 +61,16 @@ router.get('/group/all', async(req, res) => {
 })
 
 router.get('/group/:id', async(req, res) => {
-    console.log("get by id")
     const group = await Group.findById(req.params.id)
-        // const members = group.members
+    const nameList = []
+    let parsedData = group.members.map(str => JSON.parse(str));
+    parsedData.forEach(obj => {
+        nameList.push(obj.name)
+        console.log(obj.name);
+    });
+    console.log(nameList)
     var currentUser = res.locals.currentUser
-    res.render('showGroup.ejs', { group, currentUser })
-        // res.send(group)
+    res.render('showGroup.ejs', { group, currentUser, nameList })
 })
 
 router.post('/group/:id', async(req, res) => {
@@ -75,13 +81,15 @@ router.post('/group/:id', async(req, res) => {
         if (requiredUser === null) {
             res.redirect('/group/all')
         } else {
+            const collectionId = currentGroup.title
+            const externalImageId = requiredUser.name
+            const imageUrl = requiredUser.image
+            await registerFace(collectionId, externalImageId, imageUrl)
             currentGroup.members.push(JSON.stringify(requiredUser))
             await currentGroup.save()
             res.redirect(`/group/${req.params.id}`)
-
         }
     } catch (e) { res.send(e.message) }
-
 })
 
 module.exports = router
