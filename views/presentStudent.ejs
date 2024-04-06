@@ -1,38 +1,79 @@
 <% layout('layout/boilerplate.ejs') %>
 
-    <div class="text-center mb-6">
-        <h1 class="text-3xl font-bold">ATTENDANCE</h1>
+    <div class="bg-gray-900 min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+
+        <div class="w-full max-w-5xl rounded-lg shadow-lg bg-gray-800 p-8">
+
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold text-white">ATTENDANCE</h1>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="max-w-full w-full table-auto text-white">
+                    <thead>
+                        <tr class="bg-gray-700">
+                            <th class="px-4 py-2">Date</th>
+                            <th class="px-4 py-2">Time</th>
+                            <th class="px-4 py-2">Present</th>
+                            <th class="px-4 py-2">Absent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% newFormat.reverse().forEach(attendance => { %>
+                            <tr>
+                                <td class="border px-4 py-2">
+                                    <%= formatDate(attendance.date) %>
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <%= formatTime(attendance.date) %>
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <ul>
+                                        <% attendance.attendes.forEach(el => { %>
+                                            <% if (el.status === 'present') { %>
+                                                <li class="flex items-center text-green-400"><span class="mr-2">&#8226;</span>
+                                                    <%= capitalizeName(el.member) %>
+                                                </li>
+                                                <% } %>
+                                                    <% }); %>
+                                    </ul>
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <ul>
+                                        <% attendance.attendes.forEach(el => { %>
+                                            <% if (el.status === 'absent') { %>
+                                                <li class="flex items-center text-red-400"><span class="mr-2">&#8226;</span>
+                                                    <%= capitalizeName(el.member) %>
+                                                </li>
+                                                <% } %>
+                                                    <% }); %>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="flex justify-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-                <div class="bg-green-100 rounded-lg shadow-lg p-6 mb-4">
-                    <h2 class="text-lg font-semibold mb-2">Present Students (
-                        <%= attendance.presentStudent.length %> )</h2>
-                    <% for (let member of attendance.presentStudent) { %>
-                        <div class="bg-white rounded-lg shadow-md p-4 mb-2">
-                            <p class="text-lg font-semibold mb-2 text-green-800">
-                                <%= member %>
-                            </p>
-                            <!-- Additional content can be added here if needed -->
-                        </div>
-                        <% } %>
-                </div>
-            </div>
-            <div>
-                <div class="bg-red-100 rounded-lg shadow-lg p-6 mb-4">
-                    <h2 class="text-lg font-semibold mb-2">Absentees (
-                        <%= attendance.absentStudent.length %> )</h2>
-                    <% for (let member of attendance.absentStudent) { %>
-                        <div class="bg-white rounded-lg shadow-md p-4 mb-2">
-                            <p class="text-lg font-semibold mb-2 text-red-800">
-                                <%= member %>
-                            </p>
-                            <!-- Additional content can be added here if needed -->
-                        </div>
-                        <% } %>
-                </div>
-            </div>
-        </div>
-    </div>
+    <% function formatDate(date) {
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+} %>
+
+        <% function formatTime(date) {
+    const d = new Date(date);
+    const hours = d.getHours().toString().padStart(2, '0');
+    const minutes = d.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+} %>
+
+            <% function capitalizeName(name) {
+    return name.split(' ').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+} %>
