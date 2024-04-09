@@ -5,6 +5,7 @@ const User = require('../models/userModel')
 const fetchuser = require('../middleware/errorMiddleware');
 const createFaceCollection = require('../public/js/AWS_faceRekognition/createCollection');
 const registerFace = require('../public/js/AWS_faceRekognition/registerFace')
+const GroupAttendance = require('../models/attendaceModel')
     // const { json } = require('body-parser');
 const { v4: uuidv4 } = require('uuid')
 
@@ -34,7 +35,6 @@ router.post("/group/create", async(req, res) => {
         // res.redirect('/')
 
         const { title } = req.body
-        console.log("-------------->", res.locals.currentUser);
         await createFaceCollection(title)
         const group = new Group({
             title: title,
@@ -43,9 +43,12 @@ router.post("/group/create", async(req, res) => {
         })
         console.log(group)
         const saveGroup = await group.save();
-        // res.send( 'Group created successfully')
-
-        // res.json(saveGroup)
+        const attendance = new GroupAttendance({
+            groupId: saveGroup.id,
+            attendance: []
+        })
+        const saveAttendance = await attendance.save()
+        await Group.findByIdAndUpdate(saveGroup.id, { $set: { attendance: saveAttendance.id } })
         res.redirect("/");
     } catch (e) {
         res.send("error");

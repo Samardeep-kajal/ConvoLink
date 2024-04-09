@@ -19,7 +19,13 @@ const groupSchema = new Schema({
     roomid: {
         type: Schema.Types.String,
         unique: true
+    },
+    attendance: {
+        type: Schema.Types.String,
+        ref: 'groupattendances',
+        required: false
     }
+
 })
 
 module.exports = mongoose.model('Group', groupSchema)
